@@ -1,8 +1,7 @@
 package main
 
 import (
-	"log"
-	"net/http"
+	"go-register/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,15 +17,9 @@ func main() {
 
 	router := gin.Default()
 
-	router.POST("/register", RegisterHandler)
+	router.POST("/register", handlers.RegisterHandler)
 
 	router.Run()
-}
-
-type RegisterReq struct {
-	Phone string
-	Name  string
-	Role  string
 }
 
 // type RegisterRes struct {
@@ -35,17 +28,3 @@ type RegisterReq struct {
 // 	Role string
 // 	Password int
 // }
-
-func RegisterHandler(c *gin.Context) {
-	var registerReq RegisterReq
-
-	err := c.ShouldBindJSON(&registerReq)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"Phone": registerReq.Phone,
-		"Name":  registerReq.Name,
-	})
-}
