@@ -9,6 +9,7 @@ import (
 
 type RouterConfig struct {
 	RegisterService services.RegisterService
+	AuthService     services.AuthService
 }
 
 func NewRouter(c *RouterConfig) *gin.Engine {
@@ -16,9 +17,12 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 
 	h := handlers.NewHandler(&handlers.HandlerConfig{
 		RegisterService: c.RegisterService,
+		AuthService:     c.AuthService,
 	})
 
 	router.POST("/register", h.RegisterHandler)
+
+	router.POST("/login", h.LoginHandler)
 
 	return router
 }
