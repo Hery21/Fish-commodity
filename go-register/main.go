@@ -1,30 +1,17 @@
 package main
 
 import (
-	"go-register/handlers"
-
-	"github.com/gin-gonic/gin"
+	"go-register/db"
+	"go-register/server"
+	"log"
 )
 
 func main() {
-	// err := db.Connect()
+	err := db.Connect()
 
-	// if err != nil {
-	// 	log.Println("Failed to connect to DB")
-	// }
+	if err != nil {
+		log.Println("Failed to connect to DB")
+	}
 
-	// server.Init()
-
-	router := gin.Default()
-
-	router.POST("/register", handlers.RegisterHandler)
-
-	router.Run()
+	server.Init()
 }
-
-// type RegisterRes struct {
-// 	Phone string
-// 	Name string
-// 	Role string
-// 	Password int
-// }
