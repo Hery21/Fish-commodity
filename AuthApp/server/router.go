@@ -2,6 +2,7 @@ package server
 
 import (
 	"go-register/handlers"
+	"go-register/middlewares"
 	"go-register/services"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +24,8 @@ func NewRouter(c *RouterConfig) *gin.Engine {
 	router.POST("/register", h.RegisterHandler)
 
 	router.POST("/login", h.LoginHandler)
+
+	router.GET("/validate", middlewares.AuthorizeJWT, h.ValidateHandler)
 
 	return router
 }
