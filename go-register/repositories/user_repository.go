@@ -2,14 +2,13 @@ package repositories
 
 import (
 	"errors"
-	"fmt"
 	"go-register/models"
 
 	"gorm.io/gorm"
 )
 
 type UserRepository interface {
-	MatchingCredential(phone string) (*models.User, error)
+	MatchingCredential(phone string) (*models.JWTuser, error)
 }
 
 type userRepository struct {
@@ -24,12 +23,10 @@ func NewUserRepository(c *URConfig) *userRepository {
 	return &userRepository{db: c.DB}
 }
 
-func (u *userRepository) MatchingCredential(phone string) (*models.User, error) {
-	var user *models.User
-	fmt.Println("lewat================")
-	fmt.Println(phone)
+func (u *userRepository) MatchingCredential(phone string) (*models.JWTuser, error) {
+	var user *models.JWTuser
 
-	res := u.db.Where("phone = ?", phone).First(&user)
+	res := u.db.Table("users").Where("phone = ?", phone).First(&user)
 
 	isNotFound := errors.Is(res.Error, gorm.ErrRecordNotFound)
 	if isNotFound {

@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"go-register/config"
 	"go-register/dto"
 	"go-register/models"
@@ -27,7 +26,6 @@ type AuthSConfig struct {
 }
 
 func NewAuthService(c *AuthSConfig) AuthService {
-	fmt.Println("lewat================")
 	return &authService{
 		userRepository: c.UserRepository,
 		appConfig:      c.AppConfig,
@@ -36,10 +34,10 @@ func NewAuthService(c *AuthSConfig) AuthService {
 
 type idTokenClaims struct {
 	jwt.RegisteredClaims
-	User *models.User `json:"user"`
+	User *models.JWTuser `json:"user"`
 }
 
-func (a *authService) generateJWTToken(user *models.User) (*dto.TokenResponse, error) {
+func (a *authService) generateJWTToken(user *models.JWTuser) (*dto.TokenResponse, error) {
 	var idExp = a.appConfig.JWTExpireInMinutes * 60
 	unixTime := time.Now().Unix()
 	tokenExp := unixTime + idExp
@@ -54,6 +52,16 @@ func (a *authService) generateJWTToken(user *models.User) (*dto.TokenResponse, e
 		},
 		User: user,
 	}
+	// claims := jwt.MapClaims{
+	// 	"id":        user.ID,
+	// 	"name":      user.Name,
+	// 	"role":      user.Role,
+	// 	"Issuer":    a.appConfig.AppName,
+	// 	"IssuedAt":  &timeNow,
+	// 	"ExpiresAt": &timeExpire,
+	// 	// "iat":       time.Now().Unix(),
+	// 	// "exp":       time.Now().Add(time.Hour * 24).Unix(), // Token expires in 24 hours
+	// }
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(a.appConfig.JWTSecret)
 
@@ -64,7 +72,6 @@ func (a *authService) generateJWTToken(user *models.User) (*dto.TokenResponse, e
 }
 
 func (a *authService) Login(req *dto.LoginReq) (*dto.TokenResponse, error) {
-	fmt.Println("lewat================")
 	user, err := a.userRepository.MatchingCredential(req.Phone)
 
 	errNotMatch := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
