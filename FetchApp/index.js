@@ -1,13 +1,10 @@
 const express = require('express')
 const mysql = require('mysql2')
+const jwt = require('jsonwebtoken');
+const config = require('../config.js');
 const app = express()
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'super-password',
-    database: 'fish_commodity',
-});
+const connection = mysql.createConnection(config.database);
 
 function authorizeJWT(req, res, next) {
     const authHeader = req.headers.authorization;
@@ -17,7 +14,7 @@ function authorizeJWT(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
   
-    jwt.verify(token, secretKey, function(err, decoded) {
+    jwt.verify(token, config.jwt.JWTSecret, function(err, decoded) {
         if (err) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
