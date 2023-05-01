@@ -6,10 +6,29 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'super-password',
-    database: 'testExpress',
+    database: 'fish_commodity',
 });
 
-app.get('/fetch', (req, res) => {
+function authorizeJWT(req, res, next) {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+  
+    if (token == null) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+  
+    jwt.verify(token, secretKey, function(err, decoded) {
+        if (err) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+  
+        req.decoded = decoded;
+  
+        next();
+    });
+}
+
+app.get('/fetch', authorizeJWT, (req, res) => {
     https.get('https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list', (response) => {
         let data = ''
 
