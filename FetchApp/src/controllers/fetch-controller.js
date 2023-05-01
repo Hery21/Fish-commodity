@@ -17,7 +17,7 @@ function fetchController(req, res) {
           
               function insertNextRow() {
                 if (index < jsonData.length) {
-                  exchangeService(jsonData[index].price, function(priceUsd) {
+                  exchangeService.convertToUSD(jsonData[index].price, function(priceUsd) {
                     mysqlService.execute(
                       'INSERT INTO prices (uuid, komoditas, area_provinsi, size, price, price_usd, tgl_parsed) VALUES (?, ?, ?, ?, ?, ?, ?)',
                       [jsonData[index].uuid, jsonData[index].komoditas, jsonData[index].area_provinsi, jsonData[index].size, jsonData[index].price, priceUsd, new Date(jsonData[index].tgl_parsed)],
