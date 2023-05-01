@@ -1,11 +1,11 @@
 package server
 
 import (
+	"AuthApp/config"
+	"AuthApp/db"
+	"AuthApp/repositories"
+	"AuthApp/services"
 	"fmt"
-	"go-register/config"
-	"go-register/db"
-	"go-register/repositories"
-	"go-register/services"
 )
 
 func Init() {

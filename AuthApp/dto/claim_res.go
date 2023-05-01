@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"go-register/models"
+	"AuthApp/models"
 
 	"github.com/golang-jwt/jwt/v4"
 )

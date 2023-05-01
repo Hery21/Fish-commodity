@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"go-register/config"
-	"go-register/httperror"
+	"AuthApp/config"
+	"AuthApp/httperror"
 	"net/http"
 	"strings"
 

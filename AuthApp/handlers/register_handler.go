@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"go-register/dto"
+	"AuthApp/dto"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
