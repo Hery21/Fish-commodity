@@ -52,16 +52,6 @@ func (a *authService) generateJWTToken(user *models.JWTuser) (*dto.TokenResponse
 		},
 		User: user,
 	}
-	// claims := jwt.MapClaims{
-	// 	"id":        user.ID,
-	// 	"name":      user.Name,
-	// 	"role":      user.Role,
-	// 	"Issuer":    a.appConfig.AppName,
-	// 	"IssuedAt":  &timeNow,
-	// 	"ExpiresAt": &timeExpire,
-	// 	// "iat":       time.Now().Unix(),
-	// 	// "exp":       time.Now().Add(time.Hour * 24).Unix(), // Token expires in 24 hours
-	// }
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(a.appConfig.JWTSecret)
 
