@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"encoding/json"
-	"fmt"
 	"go-register/config"
 	"go-register/httperror"
 	"go-register/models"
@@ -14,7 +13,6 @@ import (
 
 func validateToken(encodedToken string) (*jwt.Token, error) {
 	return jwt.Parse(encodedToken, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, httperror.Unauthorized()
 		}
@@ -25,7 +23,6 @@ func validateToken(encodedToken string) (*jwt.Token, error) {
 
 func AuthorizeJWT(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
-	fmt.Println(authHeader)
 
 	s := strings.Split(authHeader, "Bearer ")
 	unauthorizedErr := httperror.Unauthorized()

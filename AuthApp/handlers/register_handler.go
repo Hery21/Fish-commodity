@@ -8,8 +8,6 @@ import (
 )
 
 func (h *Handler) RegisterHandler(c *gin.Context) {
-	// value, _ := c.ShouldBindJSON(&model)
-	// fmt.Println("lewat====================", value)
 	var value dto.RegisterReq
 	err := c.ShouldBindJSON(&value)
 
