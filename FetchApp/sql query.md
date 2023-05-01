@@ -4,7 +4,7 @@ CREATE TABLE prices (
   komoditas VARCHAR(255),
   area_provinsi VARCHAR(255),
   size VARCHAR(255),
-  price INT NOT NULL,
+  price INT DEFAULT 0,
   price_usd DECIMAL(10, 2),
   tgl_parsed TIMESTAMP,
   PRIMARY KEY (id)

@@ -1,10 +1,10 @@
 package services
 
 import (
-	"go-register/config"
-	"go-register/dto"
-	"go-register/models"
-	"go-register/repositories"
+	"AuthApp/config"
+	"AuthApp/dto"
+	"AuthApp/models"
+	"AuthApp/repositories"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"

@@ -1,10 +1,10 @@
 package services
 
 import (
+	"AuthApp/dto"
+	"AuthApp/models"
+	"AuthApp/repositories"
 	"fmt"
-	"go-register/dto"
-	"go-register/models"
-	"go-register/repositories"
 	"math/rand"
 	"time"
 

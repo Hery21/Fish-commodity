@@ -1,10 +1,10 @@
 package middlewares
 
 import (
+	"AuthApp/config"
+	"AuthApp/httperror"
+	"AuthApp/models"
 	"encoding/json"
-	"go-register/config"
-	"go-register/httperror"
-	"go-register/models"
 	"strings"
 
 	"github.com/gin-gonic/gin"

@@ -1,6 +1,6 @@
 package handlers
 
-import "go-register/services"
+import "AuthApp/services"
 
 type HandlerConfig struct {
 	RegisterService services.RegisterService

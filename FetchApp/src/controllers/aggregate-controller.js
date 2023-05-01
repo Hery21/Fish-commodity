@@ -1,4 +1,4 @@
-const mysqlService = require('../services/mysql-service.js');
+const mysqlService = require('../services/mysql-service');
 
 function aggregateController(req, res) {
   const { role } = req.decoded['user'];

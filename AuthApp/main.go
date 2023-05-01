@@ -1,8 +1,8 @@
 package main
 
 import (
-	"go-register/db"
-	"go-register/server"
+	"AuthApp/db"
+	"AuthApp/server"
 	"log"
 )
 

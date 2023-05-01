@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: Swagger Fetch App
+  description: Fetching and processing price data
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: user1@mail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: fetch
+    description: Fetch Data
+  - name: aggregate
+    description: Aggregate Data
+security:
+  - BearerAuth: []
+paths:
+  /fetch:
+    get:
+      tags:
+        - fetch
+      summary: Fetch data from link
+      description: Fetch data from link and store in DB
+      operationId: Fetch
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fetch'
+        '400':
+          description: Source Not Found Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceNotFoundError'
+        '401':
+          description: Unauthorize User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /aggregate:
+    get:
+      tags:
+        - aggregate
+      summary: aggregate data from DB
+      description: get data from DB and aggregate
+      operationId: Aggregate
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aggregate'
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Untauthorize User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+components:
+  schemas:
+    Credentials:
+      type: object
+      properties:
+        phone:
+          type: string
+          example: Budi
+        password:
+          type: string
+          example: FAaZ
+    IDToken:
+      type: object
+      properties:
+        idToken:
+          type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0IiwiZXhwIjoxNjgyOTk0MjMzLCJpYXQiOjE2ODI5MDQyMzMsInVzZXIiOnsiaWQiOjgsIm5hbWUiOiJCdWRpIiwicGhvbmUiOiIwMDAyIiwicm9sZSI6ImFkbWluIn19.59Dm0cHiSe6wYFJIbIAJEHQIZ5RQbPl4N0tal85EDMg
+    Fetch:
+      type: string
+      example: Data inserted successfully
+    Aggregate:
+      type: object
+      example:
+        area_provinsi: BALI,
+        week: 202213,
+        min_price: 26000,
+        max_price: 26000,
+        avg_price: 26000.0000,
+        min_size: 30,
+        max_size: 30,
+        avg_size: 30
+    UnauthorizedError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        code:
+          type: string
+          example: UNAUTHORIZED_ERROR
+        message:
+          type: string
+          example: Unauthorized error
+    FieldRequiredError:
+      type: object
+      example:
+        statusCode: 400
+        code: BAD_REQUEST
+        message: >-
+          Key: 'UserReq.Email' Error:Field validation for 'Email' failed on the
+          'required' tag
+    SourceNotFoundError:
+      type: object
+      example:
+        statusCode: 400
+        code: INVALID_SOURCE
+        message: Invalid Source of Funds
+    BadRequestError:
+      type: object
+      example:
+        statusCode: 400
+        code: BAD_REQUEST
+        message: Bad request
+    InternalServerError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 500
+        code:
+          type: string
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          example: Internal server error
+  requestBodies:
+    CredentialsBody:
+      description: User email and password
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Credentials'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"go-register/models"
+	"AuthApp/models"
 )
 
 type RegisterRes struct {

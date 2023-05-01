@@ -1,8 +1,8 @@
 package repositories
 
 import (
+	"AuthApp/models"
 	"errors"
-	"go-register/models"
 
 	"gorm.io/gorm"
 )

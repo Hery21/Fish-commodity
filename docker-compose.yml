@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  golang-app:
+    build:
+      context: ./AuthApp
+    ports:
+      - "8080:8080"
+
+  express-app:
+    build:
+      context: ./FetchApp
+    ports:
+      - "3000:3000"

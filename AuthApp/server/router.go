@@ -1,9 +1,9 @@
 package server
 
 import (
-	"go-register/handlers"
-	"go-register/middlewares"
-	"go-register/services"
+	"AuthApp/handlers"
+	"AuthApp/middlewares"
+	"AuthApp/services"
 
 	"github.com/gin-gonic/gin"
 )
