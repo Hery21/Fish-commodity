@@ -36,14 +36,14 @@ The Express.js application is a simple web server that listens on port 3000. You
 
 The API endpoints for the Go application are:
 
-POST /register - receives json with new user info, create the user in DB, and generate password
-POST /login - Outputs JWT Token if the credentials given is true
-GET /validate - validate the token and outputs the decoded token
+POST /register - receives json with new user info, create the user in DB, and generate password.
+POST /login - Outputs JWT Token if the credentials given is true.
+GET /validate - validate the token and outputs the decoded token.
 
 The API endpoints for the Express.js application are:
 
-GET /fetch - get the data from the link and create a new column by converting price to USD and pass it to the DB
-GET /aggregate - role admin can aggregate the data from previously fetched data
+GET /fetch - get the data from the link and create a new column by converting price to USD and pass it to the DB.
+GET /aggregate - role admin can aggregate the data from previously fetched data.
 
 ## Docker Configuration
 The Docker image is configured to expose ports 8080 and 3000, and set the environment variables APP_ENV, MYSQL_HOST, MYSQL_USER, and MYSQL_PASSWORD.
