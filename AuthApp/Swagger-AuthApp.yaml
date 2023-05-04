@@ -1,0 +1,219 @@
+openapi: 3.0.3
+info:
+  title: Swagger Auth App
+  description: API for authentication
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: user1@mail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: register
+    description: Register new user
+  - name: login
+    description: login with given credentials
+  - name: validate
+    description: validate given token
+security:
+  - BearerAuth: []
+paths:
+  /register:
+    post:
+      tags:
+        - register
+      summary: Register new user
+      description: Register new user by adding to DB and generate password
+      operationId: register
+      requestBody:
+        description: Create new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+        '400':
+          description: Field Required Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldRequiredError'
+        '500':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /login:
+    post:
+      tags:
+        - login
+      summary: authenticate credentials
+      description: Authenticate the given creentials with JWT
+      operationId: Authenticate
+      requestBody:
+        description: User credentials
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IDToken'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDToken'
+
+        '401':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /validate:
+    get:
+      tags:
+        - validate
+      summary: authenticate token
+      description: authenticate wether the token given is valid and return token description as response
+      operationId: Validate
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Validate'
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        '401':
+          description: Untauthorize User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+components:
+  schemas:
+    Credentials:
+      type: object
+      properties:
+        phone:
+          type: string
+          example: Budi
+        password:
+          type: string
+          example: FAaZ
+    IDToken:
+      type: object
+      properties:
+        idToken:
+          type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0IiwiZXhwIjoxNjgyOTk0MjMzLCJpYXQiOjE2ODI5MDQyMzMsInVzZXIiOnsiaWQiOjgsIm5hbWUiOiJCdWRpIiwicGhvbmUiOiIwMDAyIiwicm9sZSI6ImFkbWluIn19.59Dm0cHiSe6wYFJIbIAJEHQIZ5RQbPl4N0tal85EDMg
+    Register:
+      type: object
+      example:
+        phone: 0003,
+        name: Budi,
+        role: admin,
+        password: ttao
+    Validate:
+      type: object
+      example:
+        "claims": {
+        "exp": 1683025087,
+        "iat": 1682935087,
+        "iss": "test",
+        "user": {
+            "id": 8,
+            "name": "Budi",
+            "phone": "0002",
+            "role": "admin"
+        }
+    }
+    UnauthorizedError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        code:
+          type: string
+          example: UNAUTHORIZED_ERROR
+        message:
+          type: string
+          example: Unauthorized error
+    FieldRequiredError:
+      type: object
+      example:
+        statusCode: 400
+        code: BAD_REQUEST
+        message: >-
+          Key: 'UserReq.Email' Error:Field validation for 'Email' failed on the
+          'required' tag
+    SourceNotFoundError:
+      type: object
+      example:
+        statusCode: 400
+        code: INVALID_SOURCE
+        message: Invalid Source of Funds
+    BadRequestError:
+      type: object
+      example:
+        statusCode: 400
+        code: BAD_REQUEST
+        message: Bad request
+    InternalServerError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 500
+        code:
+          type: string
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          example: Internal server error
+  requestBodies:
+    CredentialsBody:
+      description: User email and password
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Credentials'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
